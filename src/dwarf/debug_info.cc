@@ -230,8 +230,11 @@ void CU::ReadTopLevelDIE(InfoReader& reader) {
             }
             break;
           case DW_AT_GNU_dwo_id:
-            if (value.IsUint()) {
-              dwo_id_ = value.GetUint(*this);
+            if (value.IsString()) {
+              string_view str = value.GetString(*this);
+              if (str.size() == 8) {
+                  dwo_id_ = ReadFixed<uint64_t>(&str);
+              }
             }
             break;
         }
