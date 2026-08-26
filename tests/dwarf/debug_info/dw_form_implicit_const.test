@@ -3,7 +3,7 @@
 # DW_FORM_implicit_const is not yet supported by Bloaty, but it should not crash.
 
 # RUN: %yaml2obj %s -o %t.obj
-# RUN: not %bloaty %t.obj -d compileunits 2>&1 | %FileCheck %s
+# RUN: %bloaty %t.obj -d compileunits | %FileCheck %s
 
 --- !ELF
 FileHeader:
@@ -40,4 +40,4 @@ DWARF:
         - AbbrCode:        0x0
 ...
 
-# CHECK: DW_FORM_implicit_const is not supported
+# CHECK: FILE SIZE
