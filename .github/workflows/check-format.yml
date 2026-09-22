@@ -1,0 +1,39 @@
+name: Check C++ Formatting
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '**.cc'
+      - '**.c'
+      - '**.h'
+      - '**.hpp'
+      - '**.cpp'
+      - '.github/workflows/**'
+  push:
+    branches:
+      - main
+    paths:
+      - '**.cc'
+      - '**.c'
+      - '**.h'
+      - '**.hpp'
+      - '**.cpp'
+      - '.github/workflows/**'
+
+jobs:
+  check-format:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+          
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format
+
+      - name: Run clang-format
+        run: |
+          find . -type d -name "third_party" -prune -o \
+            -type f \( -name "*.cc" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" -o -name "*.c" \) \
+            -exec clang-format -style=google --dry-run --Werror {} +
